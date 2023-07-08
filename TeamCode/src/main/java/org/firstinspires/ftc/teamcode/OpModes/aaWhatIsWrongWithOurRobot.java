@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.teamcode.CommandFramework.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFramework.Command;
 import org.firstinspires.ftc.teamcode.CommandFramework.CommandScheduler;
@@ -9,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Robot.Commands.ScoringCommands.primitiveMo
 import org.firstinspires.ftc.teamcode.Utils.Team;
 
 
-@Autonomous
+@Disabled
 public class aaWhatIsWrongWithOurRobot extends BaseAuto {
 
     @Override

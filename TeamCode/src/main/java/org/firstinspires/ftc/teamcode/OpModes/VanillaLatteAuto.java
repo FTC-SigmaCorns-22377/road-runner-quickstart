@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.CommandFramework.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFramework.Command;
@@ -25,7 +26,7 @@ import org.firstinspires.ftc.teamcode.visionPipelines.SleeveDetection;
 import java.util.HashMap;
 import java.util.Objects;
 
-@Autonomous
+@Disabled
 public class VanillaLatteAuto extends BaseAuto {
 	Pose2d startPose = new Pose2d(-36, 66.5, Math.toRadians(-90));
 

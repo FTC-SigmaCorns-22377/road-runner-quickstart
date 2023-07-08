@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.CommandFramework.CommandScheduler;
 import org.firstinspires.ftc.teamcode.Robot.Commands.DrivetrainCommands.QuasiStaticVelocity;
 @Disabled
 
-@Autonomous
 public class QuasiStaticSysid extends BaseAuto {
 	@Override
 	public Command setupAuto(CommandScheduler scheduler) {

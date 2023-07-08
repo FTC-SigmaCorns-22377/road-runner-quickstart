@@ -301,9 +301,7 @@ public class ScoringCommandGroups {
 				.addNext(new MultipleCommand(moveArm(Turret.ArmStates.DOWN), openClaw()));
 	}
 	public Command moveToIntakingLeftLonger() {
-		return moveHorizontalExtension(HorizontalExtension.autoExtension)
-				.addNext(moveArm(Turret.ArmStates.TRANSFER_SAFE))
-				.addNext(moveTurret(Turret.TurretStates.Slight_LEFT))
+		return new MultipleCommand(moveHorizontalExtension(HorizontalExtension.autoExtension), moveArm(Turret.ArmStates.TRANSFER_SAFE), moveTurret(Turret.TurretStates.Slight_LEFT))
 				.addNext(new Delay(0.1))
 				.addNext(new MultipleCommand(moveArm(Turret.ArmStates.DOWN), openClaw()));
 	}
@@ -340,7 +338,7 @@ public class ScoringCommandGroups {
 
 		return moveArm(Turret.ArmStates.TRANSFER_SAFE)
 				.addNext(moveTurret(Turret.TurretStates.Slight_LEFT_AUTO))
-				.addNext(new MultipleCommand(moveArmDirect(-0.02 + armConeHeights[currentCone]), openClaw()));
+				.addNext(new MultipleCommand(moveArmDirect(-0.04 + armConeHeights[currentCone]), openClaw()));
 	}
 
 	public Command moveToIntakingLeftSideMidAuto() {
@@ -397,6 +395,7 @@ public class ScoringCommandGroups {
 				.addNext(moveArm(Turret.ArmStates.TRANSFER)) // 0.25s
 				.addNext(new Delay(0.15)) // 0.15s
 				.addNext(closeLatch()) // 0.0s
+				.addNext(new Delay(0.15))
 				.addNext(releaseCone())  // 0.25s
 				.addNext(moveArm(Turret.ArmStates.TRANSFER_SAFE)); // 0.25
 	}
@@ -422,19 +421,13 @@ public class ScoringCommandGroups {
 
 
 
-	public Command depositConeAndGrabCone(double autoExtensionDistance, Command safetyProcedure) {
+	public Command depositConeAndGrabCone(double autoExtensionDistance) {
+
+		if (currentCone == 0) {
+			autoExtensionDistance += 10;
+		}
 
 		return depositConeAsync()
-				.addNext(new RunCommand(() -> {
-					System.out.println("current when vertical safety is checked: " + verticalExtension.getCurrent());
-					if (verticalExtension.currentLimitExceeded()) {
-						if (safetyProcedure == null) {
-							return new NullCommand();
-						}
-						return safetyProcedure;
-					}
-					return new NullCommand();
- 				}))
 				.addNext(moveHorizontalExtension(autoExtensionDistance))
 				.addNext(new MoveClawOnceSlidesDown(turret,verticalExtension, Turret.ClawStates.Closed));
 	}

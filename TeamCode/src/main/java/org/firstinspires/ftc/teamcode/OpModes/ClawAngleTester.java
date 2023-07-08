@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Disabled
 
-@TeleOp
 public class ClawAngleTester extends LinearOpMode {
 	@Override
 	public void runOpMode() throws InterruptedException {

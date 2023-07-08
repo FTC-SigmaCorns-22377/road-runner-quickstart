@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.CommandFramework.CommandScheduler;
 import org.firstinspires.ftc.teamcode.Utils.Team;
 @Disabled
 
-@Autonomous
 public class shivanonsense extends BaseAuto {
 	@Override
 	public Command setupAuto(CommandScheduler scheduler) {

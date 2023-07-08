@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.CRI_OPMODES;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
@@ -38,6 +38,7 @@ public class Teleop extends BaseTeleop {
 			robot.drivetrain.setPose(new Pose2d(0,0,Math.toRadians(-90)));
 			return new NullCommand();
 		}));
+		robot.gamepad1.whenLeftTriggerPressed(new RunCommandLegacy(commandGroups::moveToIntakingLeftLonger));
 		robot.backCamera.setVisionMode(VisionMode.LION); //TODO this might be redundant, remove this if pipeline instance is created at the start of every opmode
 		return new MultipleCommand(new RobotRelative(robot, robot.gamepad1));
 	}

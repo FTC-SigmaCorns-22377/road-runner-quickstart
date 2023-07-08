@@ -30,7 +30,7 @@ public class VerticalExtension extends Subsystem {
 	public final static double IN_POSITION = 0;
 	static final double PULLEY_CIRCUMFERENCE = 4.409;
 	static final double counts_per_revolution = 145.090909;
-	public static double Kp = 0.2;
+	public static double Kp = 0.25;
 	public static double Kd = 1.8 * Math.sqrt(Kp * 0.0015);
 	public static double max_accel = 250;
 	public static double max_velocity = 250;
@@ -50,6 +50,7 @@ public class VerticalExtension extends Subsystem {
 	ProfiledPID controller = new ProfiledPID(upConstraint, downConstraint, coefficients);
 	private VoltageSensor batteryVoltageSensor;
 	protected double current = 0;
+	protected boolean is_auto = true;
 
 	public void commonInit(HardwareMap hwMap) {
 		vertical1 = hwMap.get(DcMotorEx.class, "vertical1");
@@ -80,6 +81,7 @@ public class VerticalExtension extends Subsystem {
 
 		vertical1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 		vertical2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		is_auto = false;
 	}
 
 	@Override
@@ -152,7 +154,7 @@ public class VerticalExtension extends Subsystem {
 	}
 
 	public boolean currentLimitExceeded() {
-		return Math.abs(current) > 4;
+		return Math.abs(current) > 5 && !is_auto;
 	}
 
 	public double getCurrent() {
@@ -168,7 +170,11 @@ public class VerticalExtension extends Subsystem {
 	}
 
 	public boolean slideIsDown() {
-		return getSlidePosition() < 0.25;
+		return getSlidePosition() < 0.65;
+	}
+
+	public double getVelocity() {
+		return vertical1.getVelocity();
 	}
 
 }

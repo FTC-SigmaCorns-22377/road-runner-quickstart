@@ -397,9 +397,9 @@ public class SampleMecanumDrive extends MecanumDrive {
 			lateralController = new PIDFController(TRANSLATIONAL_PID);
 			headingController = new PIDFController(HEADING_PID);
 		} else {
-			axialController = new PIDFController(new PIDCoefficients(30,0,solveKD(30, DriveConstants.kV, DriveConstants.kA)));
-			lateralController = new PIDFController(new PIDCoefficients(30,0,solveKD(30, DriveConstants.kV, DriveConstants.kA)));
-			headingController = new PIDFController(new PIDCoefficients(30,0,solveKD(30, DriveConstants.kV/ TRACK_WIDTH, DriveConstants.kA/ TRACK_WIDTH)));
+			axialController = new PIDFController(new PIDCoefficients(60,0,solveKD(60, DriveConstants.kV, DriveConstants.kA)));
+			lateralController = new PIDFController(new PIDCoefficients(60,0,solveKD(60, DriveConstants.kV, DriveConstants.kA)));
+			headingController = new PIDFController(new PIDCoefficients(60,0,solveKD(60, DriveConstants.kV/ TRACK_WIDTH, DriveConstants.kA/ TRACK_WIDTH)));
 		}
 	}
 

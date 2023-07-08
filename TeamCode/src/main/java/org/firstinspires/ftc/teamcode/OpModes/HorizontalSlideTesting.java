@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Robot.Commands.ScoringCommands.ScoringComm
 import org.firstinspires.ftc.teamcode.Utils.Team;
 @Disabled
 
-@Autonomous
 public class HorizontalSlideTesting extends BaseAuto {
 	@Override
 	public Command setupAuto(CommandScheduler scheduler) {

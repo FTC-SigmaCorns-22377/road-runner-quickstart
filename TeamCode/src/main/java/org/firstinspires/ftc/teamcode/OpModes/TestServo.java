@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Robot.Commands.DrivetrainCommands.RobotRel
 
 @Disabled
 
-@TeleOp
 public class TestServo extends BaseTeleop {
 
 	@Override

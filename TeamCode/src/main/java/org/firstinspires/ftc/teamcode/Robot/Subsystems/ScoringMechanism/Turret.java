@@ -15,7 +15,7 @@ public class Turret extends Subsystem {
 	private static final double MIN_RAW_SERVO_ANGLE = 0;
 	private static final double MAX_RAW_SERVO_ANGLE = 1;
 	private static final double TAU = Math.PI * 2;
-	public double armDown = 0.06;
+	public double armDown = 0.045;
 	MainScoringMechanism.MechanismStates state = MainScoringMechanism.MechanismStates.BEGIN;
 	ServoImplEx turret;
 	Servo arm1;
@@ -91,10 +91,10 @@ public class Turret extends Subsystem {
 				setBasedTurretPosition(Math.toRadians(13.5));
 				break;
 			case Slight_LEFT:
-				setBasedTurretPosition(Math.toRadians(359));
+				setBasedTurretPosition(Math.toRadians(355));
 				break;
 			case Slight_LEFT_AUTO:
-				setBasedTurretPosition(Math.toRadians(333));
+				setBasedTurretPosition(Math.toRadians(340));
 				break;
 			case FAR_LEFT:
 				setBasedTurretPosition(Math.toRadians(290));

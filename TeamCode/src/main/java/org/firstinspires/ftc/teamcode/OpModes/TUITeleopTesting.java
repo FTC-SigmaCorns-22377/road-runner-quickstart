@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.Robot.Commands.MiscCommands.MoveFieldCurso
 import org.firstinspires.ftc.teamcode.Utils.VirtualField;
 @Disabled
 
-@TeleOp
 public class TUITeleopTesting extends BaseTeleop {
 
 	VirtualField virtualField;

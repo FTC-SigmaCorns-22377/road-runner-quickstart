@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Robot.Subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Input;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.Robot;
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.ScoringMechanism.HorizontalExtension;
+import org.firstinspires.ftc.teamcode.Robot.Subsystems.ScoringMechanism.VerticalExtension;
 import org.firstinspires.ftc.teamcode.Utils.MathUtils;
 
 public class RobotRelative extends Command {
@@ -23,6 +24,7 @@ public class RobotRelative extends Command {
 
 	Drivetrain drivetrain;
 	HorizontalExtension extension;
+	VerticalExtension verticalExtension;
 	Input game_pad1;
 	double strafe_dead_band = 0.1;
 
@@ -33,6 +35,7 @@ public class RobotRelative extends Command {
 		this.drivetrain = robot.drivetrain;
 		this.game_pad1 = game_pad1;
 		this.extension = robot.scoringMechanism.horizontalExtension;
+		this.verticalExtension = robot.scoringMechanism.verticalExtension;
 
 	}
 
@@ -55,15 +58,17 @@ public class RobotRelative extends Command {
 		turn = game_pad1.getTurnJoystick();
 
 		if (this.extension.getSlidePosition() > 100) {
-			turn *= 0.5;
+			x *= 0.4;
+			y *= 0.4;
+			turn *= 0.4;
 		}
-
-		if (game_pad1.getLeft_trigger_value() > 0.5) {
-			turn = heading_control.calculate(
-					snap_angle,
-					drivetrain.drive.getPoseEstimate().getHeading()
-			);
-		}
+//
+//		if (game_pad1.getLeft_trigger_value() > 0.5) {
+//			turn = heading_control.calculate(
+//					snap_angle,
+//					drivetrain.drive.getPoseEstimate().getHeading()
+//			);
+//		}
 
 		y = MathUtils.applyDeadBand(y, strafe_dead_band);
 

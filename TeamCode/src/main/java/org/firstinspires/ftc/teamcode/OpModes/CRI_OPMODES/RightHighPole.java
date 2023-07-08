@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.CRI_OPMODES;
 
 import static org.firstinspires.ftc.teamcode.RR_quickstart.util.BasedMath.shiftRobotRelative;
 
@@ -23,10 +23,9 @@ import org.firstinspires.ftc.teamcode.Robot.Subsystems.ScoringMechanism.Horizont
 import org.firstinspires.ftc.teamcode.Robot.Subsystems.ScoringMechanism.VerticalExtension;
 import org.firstinspires.ftc.teamcode.Simulation.TestCommandsSubsystems.PrintCommand1;
 import org.firstinspires.ftc.teamcode.Utils.Team;
-import org.firstinspires.ftc.teamcode.visionPipelines.SleeveDetection;
 
 @Autonomous
-public class PumpkinSpiceAuto extends BaseAuto {
+public class RightHighPole extends BaseAuto {
 
 
 	final Pose2d goToPole1 = new Pose2d(-38, 24, Math.toRadians(-100));
@@ -37,7 +36,7 @@ public class PumpkinSpiceAuto extends BaseAuto {
 	Pose2d startPose = new Pose2d(-36, 66.5, Math.toRadians(-90));
 	Pose2d goToPole2 = shiftRobotRelative(
 			new Pose2d(-36.2, 10.158013549498268, Math.toRadians(338.11832672430523)),
-			0.7,
+			-1.2,
 			-1.7
 	);
 	final Pose2d parkLefter1 = new Pose2d(0, 19, Math.toRadians(270));
@@ -108,7 +107,6 @@ public class PumpkinSpiceAuto extends BaseAuto {
 
 
 		Trajectory park = parkLeftTrajNew;
-		parkingPosition = SleeveDetection.ParkingPosition.RIGHT;
 
 		switch (parkingPosition) {
 			case LEFT:
@@ -123,6 +121,15 @@ public class PumpkinSpiceAuto extends BaseAuto {
 		}
 
 		Command auto = followRR(driveToPole).addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.FREE));
+
+		auto = multiCommand(auto,
+				new Delay(2)
+						.addNext(
+								commandGroups.moveVerticalExtension(
+										VerticalExtension.MID_POSITION
+								)
+						)
+		);
 
 		auto.addNext(new RoadrunnerHoldPose(robot, goToPole2));
 		auto.addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.ACTIVATED));
@@ -142,14 +149,11 @@ public class PumpkinSpiceAuto extends BaseAuto {
 	public void addCycle(Command command, ScoringCommandGroups commandGroups) {
 
 
-		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION),
+		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_teleop),
 				commandGroups.moveToIntakingPosition(),
 				commandGroups.moveHorizontalExtension(HorizontalExtension.PRE_EMPTIVE_EXTEND))
 				.addNext(commandGroups.moveHorizontalExtension(HorizontalExtension.mostlyAutoExtension))
-				.addNext(commandGroups.depositConeAndGrabCone(
-						HorizontalExtension.autoExtension,
-						verticalExtensionHitPoleProcedure(commandGroups))
-				)
+				.addNext(commandGroups.depositConeAndGrabCone(HorizontalExtension.autoExtension))
 				.addNext(DepositIfMisFired(commandGroups))
 				.addNext(commandGroups.bringConeIn())
 				.addNext(DislodgeConeIdeal())
@@ -211,7 +215,7 @@ public class PumpkinSpiceAuto extends BaseAuto {
 	}
 
 	public Command DepositIfMisFired(ScoringCommandGroups commandGroups) {
-		Command c = new RunCommand(() -> {
+		return new RunCommand(() -> {
 			System.out.println("checking if misfire occurred");
 			if (robot.scoringMechanism.verticalExtension.coneIsStillInDeposit()) {
 				System.out.println("Misfire did occur");
@@ -229,7 +233,6 @@ public class PumpkinSpiceAuto extends BaseAuto {
 				return new NullCommand();
 			}
 		});
-		return c;
 	}
 
 }

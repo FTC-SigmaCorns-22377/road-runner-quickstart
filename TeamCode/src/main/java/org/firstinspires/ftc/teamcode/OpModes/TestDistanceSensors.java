@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 @Disabled
 
-@Autonomous
 public class TestDistanceSensors extends LinearOpMode {
 	KalmanFilter filter = new KalmanFilter(0.3, 0.5, 3);
 	double constant = (1 / 0.003388888889);

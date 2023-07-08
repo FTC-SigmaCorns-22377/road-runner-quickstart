@@ -2,6 +2,7 @@ package com.thermalequilibrium.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.noahbres.meepmeep.MeepMeep;
@@ -19,23 +20,29 @@ public class MeepMeepTesting {
 
 	public static void main(String[] args) {
 		MeepMeep meepMeep = new MeepMeep(800);
-		Pose2d startPose = new Pose2d(-36, 66.5,Math.toRadians(-90));
-		final Pose2d goToPole1 = new Pose2d(-38, 24,Math.toRadians(-100));
-		Pose2d goToPole2 = shiftRobotRelative(
-				new Pose2d(-34.714046022304565,10.158013549498268,Math.toRadians(338.11832672430523)),
-				-2.5,
-				-0.5
-		);
-
-		final Pose2d parkRight1= new Pose2d(goToPole2.getX() - 1, goToPole2.getY() + 1, goToPole2.getHeading());
-		final Pose2d parkRight = new Pose2d(-63, 14, Math.toRadians(0));
+		final Pose2d goToPole1 = new Pose2d(-38, -24, Math.toRadians(-100));
+		final Pose2d parkRight = new Pose2d(-63, 20, Math.toRadians(0));
 		final Pose2d parkMID = new Pose2d(-40, 18, Math.toRadians(-90));
-		final Pose2d parkLeft1 = new Pose2d(-38,26,Math.toRadians(-90));
+		final Pose2d parkLeft1_new = new Pose2d(-38, 19, Math.toRadians(270));
+		final Pose2d parkLeft_new = new Pose2d(-8, 15, Math.toRadians(90));
+		Pose2d startPose = new Pose2d(-36 + 0.76, -66.5, Math.toRadians(90));
+		Pose2d goToPole2 = shiftRobotRelative(
+				new Pose2d(-36.2, -10.158013549498268, -Math.toRadians(338.11832672430523)),
+				-1.2,
+				-1.7
+		);
+		final Pose2d parkLefter1 = new Pose2d(0, -19, -Math.toRadians(270));
+		final Pose2d parkLefter_new = new Pose2d(12, -19,-Math.toRadians(90));
 
-		final Pose2d parkLeft = new Pose2d(-6,38,Math.toRadians(0));
-		final Pose2d parkLeft1_new = new Pose2d(-38,18,Math.toRadians(270));
+		Pose2d goToPoleAfterCorrection = new Pose2d(goToPole2.getX(), goToPole2.getY() + 3, goToPole2.getHeading());
+		final Pose2d parkRight1 = new Pose2d(goToPole2.getX() - 1, goToPole2.getY() + 3, goToPole2.getHeading());
+		Pose2d DislodgePosition = shiftRobotRelative(goToPole2, -2,10);
+		double backup = -2;
+		Pose2d newPose = shiftRobotRelative(goToPole2,backup,0);
+		Trajectory backupFromPole;
 
-		final Pose2d parkLeft_new = new Pose2d(-12,14,Math.toRadians(20));
+		Pose2d newPoseIfMisfired = shiftRobotRelative(goToPole2,-backup,0);
+		Trajectory moveUpToPole;
 
 
 		RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -43,7 +50,7 @@ public class MeepMeepTesting {
 				.setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, 12)
 				.followTrajectorySequence(drive ->
 						drive.trajectorySequenceBuilder(startPose)
-								.splineTo(goToPole1.vec(), goToPole1.getHeading())
+								.splineTo(goToPole1.vec(), -goToPole1.getHeading())
 								.splineToSplineHeading(goToPole2,calculateTangent(goToPole1,goToPole2))
 								.setReversed(true)
 								.splineToConstantHeading(parkLeft1_new.vec(),Math.toRadians(0))

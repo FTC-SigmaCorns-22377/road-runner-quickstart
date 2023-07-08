@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.RR_quickstart.util.BasedMath.shiftR
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.CommandFramework.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFramework.Command;
@@ -25,7 +26,7 @@ import org.firstinspires.ftc.teamcode.Utils.Team;
 import org.firstinspires.ftc.teamcode.VisionUtils.IntakeParameters;
 import org.firstinspires.ftc.teamcode.VisionUtils.VisionMode;
 
-@Autonomous
+@Disabled
 public class VisionSpiceRed extends BaseAuto {
 
 

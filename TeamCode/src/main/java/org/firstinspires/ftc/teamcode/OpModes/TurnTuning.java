@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.CommandFramework.CommandScheduler;
 
 @Disabled
 
-@Autonomous
 public class TurnTuning extends BaseAuto {
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override

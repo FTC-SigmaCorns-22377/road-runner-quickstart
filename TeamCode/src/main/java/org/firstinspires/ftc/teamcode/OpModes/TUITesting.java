@@ -8,8 +8,6 @@ import org.firstinspires.ftc.teamcode.CommandFramework.Command;
 import org.firstinspires.ftc.teamcode.CommandFramework.CommandScheduler;
 import org.firstinspires.ftc.teamcode.Robot.Commands.MiscCommands.TUI;
 @Disabled
-
-@Autonomous
 public class TUITesting extends BaseAuto {
 
 	@Override

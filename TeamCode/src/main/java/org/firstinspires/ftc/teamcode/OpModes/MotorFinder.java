@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.Math.AsymmetricProfile.MotionConstraint;
 import org.firstinspires.ftc.teamcode.Utils.ProfiledPID;
 
-@TeleOp
+@Disabled
 public class MotorFinder extends LinearOpMode {
 
 
