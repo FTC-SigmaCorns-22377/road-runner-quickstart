@@ -302,7 +302,6 @@ public class ScoringCommandGroups {
 	}
 	public Command moveToIntakingLeftLonger() {
 		return new MultipleCommand(moveHorizontalExtension(HorizontalExtension.autoExtension), moveArm(Turret.ArmStates.TRANSFER_SAFE), moveTurret(Turret.TurretStates.Slight_LEFT))
-				.addNext(new Delay(0.1))
 				.addNext(new MultipleCommand(moveArm(Turret.ArmStates.DOWN), openClaw()));
 	}
 
@@ -389,14 +388,11 @@ public class ScoringCommandGroups {
 		return grabCone() // 0.25s
 				.addNext(openLatch()) // 0s
 				.addNext(moveArm(Turret.ArmStates.TRANSFER_SAFE)) // 0.25s
-				.addNext(new Delay(0.15))
+				.addNext(new Delay(0.1))
 				.addNext(moveTurret(Turret.TurretStates.TRANSFER)) // 0.2s
-				.addNext(new Delay(0.15)) // 0.15s
 				.addNext(moveHorizontalExtension(HorizontalExtension.IN_POSITION)) // some amount of time, assuming about 0.2
 				.addNext(moveArm(Turret.ArmStates.TRANSFER)) // 0.25s
-				.addNext(new Delay(0.15)) // 0.15s
 				.addNext(closeLatch()) // 0.0s
-				.addNext(new Delay(0.15))
 				.addNext(releaseCone())  // 0.25s
 				.addNext(moveArm(Turret.ArmStates.TRANSFER_SAFE)); // 0.25
 	}
@@ -442,6 +438,7 @@ public class ScoringCommandGroups {
 
 	public Command completeConeTransfer() {
 		return moveArm(Turret.ArmStates.TRANSFER)
+				.addNext(new Delay(0.05))
 				.addNext(releaseCone())
 				.addNext(closeLatch())
 				.addNext(moveArm(Turret.ArmStates.TRANSFER_SAFE));

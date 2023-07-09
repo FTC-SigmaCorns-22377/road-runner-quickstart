@@ -136,6 +136,7 @@ public class LeftHighPole extends BaseAuto {
 
 		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_LEFT_AUTO),
 				commandGroups.moveToIntakingLeftAuto())// 0.45 s
+				.addNext(commandGroups.depositConeAsync())
 				.addNext(commandGroups.moveHorizontalExtension(HorizontalExtension.mostlyAutoExtensionLeft))
 				.addNext(commandGroups.depositConeAndGrabCone(HorizontalExtension.autoExtensionLeft))
 				.addNext(DepositIfMisFired(commandGroups))

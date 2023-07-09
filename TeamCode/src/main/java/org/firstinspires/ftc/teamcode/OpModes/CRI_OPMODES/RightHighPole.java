@@ -143,6 +143,7 @@ public class RightHighPole extends BaseAuto {
 		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO),
 				commandGroups.moveToIntakingPosition(),
 				commandGroups.moveHorizontalExtension(HorizontalExtension.PRE_EMPTIVE_EXTEND))
+				.addNext(commandGroups.depositConeAsync())
 				.addNext(commandGroups.moveHorizontalExtension(HorizontalExtension.mostlyAutoExtension))
 				.addNext(commandGroups.depositConeAndGrabCone(HorizontalExtension.autoExtension))
 				.addNext(DepositIfMisFired(commandGroups))
