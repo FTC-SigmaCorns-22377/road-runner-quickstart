@@ -4,14 +4,12 @@ import static org.firstinspires.ftc.teamcode.RR_quickstart.util.BasedMath.shiftR
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.CommandFramework.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFramework.Command;
 import org.firstinspires.ftc.teamcode.CommandFramework.CommandScheduler;
 import org.firstinspires.ftc.teamcode.Robot.Commands.DrivetrainCommands.Brake.SetDrivetrainBrake;
-import org.firstinspires.ftc.teamcode.Robot.Commands.DrivetrainCommands.Brake.ToggleBrake;
 import org.firstinspires.ftc.teamcode.Robot.Commands.DrivetrainCommands.RoadrunnerHoldPose;
 import org.firstinspires.ftc.teamcode.Robot.Commands.MiscCommands.Delay;
 import org.firstinspires.ftc.teamcode.Robot.Commands.ScoringCommands.ScoringCommandGroups;
@@ -81,13 +79,13 @@ public class VisionSpiceRed extends BaseAuto {
         Trajectory park = parkLeftTrajNew;
 
         switch (parkingPosition) {
-            case LEFT:
+            case ZONE_1:
                 park = parkLeftTrajNew;
                 break;
-            case CENTER:
+            case ZONE_2:
                 park = parkMidTraj;
                 break;
-            case RIGHT:
+            case ZONE_3:
                 park = parkRightTraj;
                 break;
         }

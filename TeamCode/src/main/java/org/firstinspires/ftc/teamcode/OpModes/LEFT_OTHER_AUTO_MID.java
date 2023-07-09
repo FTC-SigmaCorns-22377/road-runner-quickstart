@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.CommandFramework.BaseAuto;
@@ -51,9 +50,9 @@ public class LEFT_OTHER_AUTO_MID extends BaseAuto {
 
 		HashMap<SleeveDetection.ParkingPosition, Pose2d> parking = new HashMap<>();
 
-		parking.put(SleeveDetection.ParkingPosition.LEFT, parkLeft);
-		parking.put(SleeveDetection.ParkingPosition.CENTER, parkCenter);
-		parking.put(SleeveDetection.ParkingPosition.RIGHT, parkRight);
+		parking.put(SleeveDetection.ParkingPosition.ZONE_1, parkLeft);
+		parking.put(SleeveDetection.ParkingPosition.ZONE_2, parkCenter);
+		parking.put(SleeveDetection.ParkingPosition.ZONE_3, parkRight);
 
 		Trajectory scoring1 = robot.drivetrain.getBuilder().trajectoryBuilder(startPose, false)
 				.splineToConstantHeading(goToPole, Math.toRadians(270), slowVelocity, slowAcceleration)

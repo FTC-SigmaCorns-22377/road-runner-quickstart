@@ -19,7 +19,7 @@ public class SleeveDetection extends OpenCvPipeline {
      */
 
 	// TOPLEFT anchor point for the bounding box
-	public static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(120, 160);
+	public static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(200, 160);
 	// Width and height for the bounding box
 	public static int REGION_WIDTH = 60;
 	public static int REGION_HEIGHT = 50;
@@ -36,7 +36,7 @@ public class SleeveDetection extends OpenCvPipeline {
 			SLEEVE_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
 			SLEEVE_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 	// Running variable storing the parking position
-	private volatile ParkingPosition position = ParkingPosition.LEFT;
+	private volatile ParkingPosition position = ParkingPosition.ZONE_1;
 
 	@Override
 	public Mat processFrame(Mat input) {
@@ -49,7 +49,7 @@ public class SleeveDetection extends OpenCvPipeline {
 
 		// Change the bounding box color based on the sleeve color
 		if (sumColors.val[0] == minColor) {
-			position = ParkingPosition.CENTER;
+			position = ParkingPosition.ZONE_2;
 			Imgproc.rectangle(
 					input,
 					sleeve_pointA,
@@ -58,7 +58,7 @@ public class SleeveDetection extends OpenCvPipeline {
 					2
 			);
 		} else if (sumColors.val[1] == minColor) {
-			position = ParkingPosition.RIGHT;
+			position = ParkingPosition.ZONE_3;
 			Imgproc.rectangle(
 					input,
 					sleeve_pointA,
@@ -67,7 +67,7 @@ public class SleeveDetection extends OpenCvPipeline {
 					2
 			);
 		} else {
-			position = ParkingPosition.LEFT;
+			position = ParkingPosition.ZONE_1;
 			Imgproc.rectangle(
 					input,
 					sleeve_pointA,
@@ -88,8 +88,8 @@ public class SleeveDetection extends OpenCvPipeline {
 	}
 
 	public enum ParkingPosition {
-		LEFT,
-		CENTER,
-		RIGHT
+		ZONE_1,
+		ZONE_2,
+		ZONE_3
 	}
 }

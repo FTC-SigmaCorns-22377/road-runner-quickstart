@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Robot.Subsystems.ScoringMechanism.Turret;
 import org.firstinspires.ftc.teamcode.VisionUtils.IntakeParameters;
 
 public class MoveArmIfCone extends Command {
-    double delayS = 0.25;
+    double delayS = 0.15;
 
     Turret turret;
     Turret.ArmStates armStates;

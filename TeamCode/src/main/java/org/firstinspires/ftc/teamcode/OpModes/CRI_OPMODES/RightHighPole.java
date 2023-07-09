@@ -35,9 +35,9 @@ public class RightHighPole extends BaseAuto {
 	final Pose2d parkLeft_new = new Pose2d(-8, 15, Math.toRadians(90));
 	Pose2d startPose = new Pose2d(-36, 66.5, Math.toRadians(-90));
 	Pose2d goToPole2 = shiftRobotRelative(
-			new Pose2d(-36.2, 10.158013549498268, Math.toRadians(338.11832672430523)),
-			-1.2,
-			-1.7
+			new Pose2d(-36.2, 9.5, Math.toRadians(338.11832672430523)),
+			-1.5,
+			-2.7
 	);
 	final Pose2d parkLefter1 = new Pose2d(0, 19, Math.toRadians(270));
 	final Pose2d parkLefter_new = new Pose2d(12, 19, Math.toRadians(90));
@@ -51,6 +51,7 @@ public class RightHighPole extends BaseAuto {
 
 	Pose2d newPoseIfMisfired = shiftRobotRelative(goToPole2,-backup,0);
 	Trajectory moveUpToPole;
+	Trajectory park;
 
 
 	@Override
@@ -106,37 +107,27 @@ public class RightHighPole extends BaseAuto {
 				.build();
 
 
-		Trajectory park = parkLeftTrajNew;
+		park = parkLeftTrajNew;
 
 		switch (parkingPosition) {
-			case LEFT:
+			case ZONE_1:
+				park = parkLefter;
+				break;
+			case ZONE_2:
 				park = parkLeftTrajNew;
 				break;
-			case CENTER:
+			case ZONE_3:
 				park = parkMidTraj;
-				break;
-			case RIGHT:
-				park = parkLefter;
 				break;
 		}
 
 		Command auto = followRR(driveToPole).addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.FREE));
-
-		auto = multiCommand(auto,
-				new Delay(2)
-						.addNext(
-								commandGroups.moveVerticalExtension(
-										VerticalExtension.MID_POSITION
-								)
-						)
-		);
-
 		auto.addNext(new RoadrunnerHoldPose(robot, goToPole2));
 		auto.addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.ACTIVATED));
 		for (int i = 0; i < 5; ++i) {
 			addCycle(auto, commandGroups);
 		}
-		auto.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_teleop))
+		auto.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO))
 				.addNext(new Delay(0.25))
 				.addNext(commandGroups.depositCone());
 		auto.addNext(commandGroups.moveHorizontalExtension(0));
@@ -149,7 +140,7 @@ public class RightHighPole extends BaseAuto {
 	public void addCycle(Command command, ScoringCommandGroups commandGroups) {
 
 
-		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_teleop),
+		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO),
 				commandGroups.moveToIntakingPosition(),
 				commandGroups.moveHorizontalExtension(HorizontalExtension.PRE_EMPTIVE_EXTEND))
 				.addNext(commandGroups.moveHorizontalExtension(HorizontalExtension.mostlyAutoExtension))
@@ -170,7 +161,7 @@ public class RightHighPole extends BaseAuto {
 	public Command verticalExtensionHitPoleProcedure(ScoringCommandGroups commandGroups) {
 
 		return new PrintCommand1(robot.print, "vertical safety initialization")
-				.addNext(commandGroups.moveHorizontalExtension(VerticalExtension.HIGH_POSITION))
+				.addNext(commandGroups.moveHorizontalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO))
 				.addNext(followRR(backupFromPole))
 				.addNext(commandGroups.asyncMoveVerticalExtension(VerticalExtension.IN_POSITION));
 
@@ -204,7 +195,8 @@ public class RightHighPole extends BaseAuto {
 					.addNext(new MoveHorizontalExtension(robot.scoringMechanism.horizontalExtension, HorizontalExtension.DISLODGE_CONE))
 					.addNext(followRR(DislodgeCone2))
 					.addNext(new MoveHorizontalExtension(robot.scoringMechanism.horizontalExtension,HorizontalExtension.IN_POSITION))
-					.addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.ACTIVATED));
+					.addNext(followRR(park))
+					.addNext(new Delay(30));
 			}
 			System.out.println("no maneuver, null command returned");
 			return new NullCommand();
@@ -217,7 +209,7 @@ public class RightHighPole extends BaseAuto {
 	public Command DepositIfMisFired(ScoringCommandGroups commandGroups) {
 		return new RunCommand(() -> {
 			System.out.println("checking if misfire occurred");
-			if (robot.scoringMechanism.verticalExtension.coneIsStillInDeposit()) {
+			if (false) {//(robot.scoringMechanism.verticalExtension.coneIsStillInDeposit()) {
 				System.out.println("Misfire did occur");
 
 				return commandGroups.openClaw()
@@ -225,7 +217,7 @@ public class RightHighPole extends BaseAuto {
 						.addNext(new Delay(0.2))
 						.addNext(followRR(moveUpToPole))
 						.addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.ACTIVATED))
-						.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION))
+						.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO))
 						.addNext(commandGroups.depositConeAsync())
 						.addNext(commandGroups.grabCone());
 			} else {

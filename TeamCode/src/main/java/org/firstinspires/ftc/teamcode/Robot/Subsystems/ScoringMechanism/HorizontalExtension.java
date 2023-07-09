@@ -22,8 +22,8 @@ public class HorizontalExtension extends Subsystem {
 	public final static double PRE_EMPTIVE_EXTEND = 100;
 	public final static double PRE_EMPTIVE_EXTEND_BIG = 300;
 	public final static double TELE_CYCLE_EXTENSION = 359; // todo figure out our max safe extension
-	public final static double autoExtension = 422;
-	public final static double autoExtensionLeft = 422 - 12;
+	public final static double autoExtension = 370;
+	public final static double autoExtensionLeft = 407;
 	public final static double mostlyAutoExtensionLeft = autoExtensionLeft - 30;
 	public final static double mostlyAutoExtension = autoExtension - 30;
 	public final static double autoExtension_MID = 422;
@@ -40,9 +40,9 @@ public class HorizontalExtension extends Subsystem {
 	MainScoringMechanism.MechanismStates state = MainScoringMechanism.MechanismStates.BEGIN;
 	DcMotorEx leftMotor;
 	DcMotorEx rightMotor;
-	PIDCoefficients coefficients = new PIDCoefficients(0.013, 0, 0);
-	MotionConstraint upConstraint = new MotionConstraint(4000, 5000, 1800);
-	MotionConstraint downConstraint = new MotionConstraint(4000, 5000, 1800);
+	PIDCoefficients coefficients = new PIDCoefficients(0.012, 0, 0);
+	MotionConstraint upConstraint = new MotionConstraint(4000, 5000, 2000);
+	MotionConstraint downConstraint = new MotionConstraint(4000, 5000, 2000);
 	ProfiledPID controller = new ProfiledPID(upConstraint, downConstraint, coefficients);
 
 	public void commonInit(HardwareMap hwMap) {

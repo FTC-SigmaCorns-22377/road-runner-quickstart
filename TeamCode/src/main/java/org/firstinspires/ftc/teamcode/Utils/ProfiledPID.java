@@ -87,4 +87,8 @@ public class ProfiledPID implements FeedbackController {
 		}
 		return Math.abs(m_targetPosition - m_state) < 20;
 	}
+
+	public void setPIDCoefficients(PIDCoefficients coefficients) {
+		controller.setPIDCoefficients(coefficients);
+	}
 }

@@ -84,7 +84,7 @@ public class FrontCamera extends Subsystem {
 	public SleeveDetection.ParkingPosition getParkingPosition() {
 //        return SleeveDetection.ParkingPosition.CENTER;
 		if (cam.getFrameCount() < 1 || !open) {
-			return SleeveDetection.ParkingPosition.CENTER;
+			return SleeveDetection.ParkingPosition.ZONE_2;
 		}
 		assert pipeline instanceof SleeveDetection;
 		return ((SleeveDetection) pipeline).getPosition();

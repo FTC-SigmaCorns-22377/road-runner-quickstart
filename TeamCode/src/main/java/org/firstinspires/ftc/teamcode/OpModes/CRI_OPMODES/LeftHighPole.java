@@ -32,15 +32,15 @@ public class LeftHighPole extends BaseAuto {
 	final Pose2d parkRight = new Pose2d(-63, -20, Math.toRadians(0));
 	final Pose2d parkMID = new Pose2d(-40, -18, Math.toRadians(90));
 	final Pose2d parkLeft1_new = new Pose2d(-38, -19, Math.toRadians(270));
-	final Pose2d parkLeft_new = new Pose2d(-8, -15, Math.toRadians(90));
+	final Pose2d parkLeft_new = new Pose2d(-3, -15, Math.toRadians(90));
 	Pose2d startPose = new Pose2d(-36, -66.5, Math.toRadians(90));
 	Pose2d goToPole2 = shiftRobotRelative(
-			new Pose2d(-36.2, -10.158013549498268 + 3, -Math.toRadians(338.11832672430523)),
-			-1.2,
+			new Pose2d(-36.2, -10.158013549498268 + 3.9, -Math.toRadians(338.11832672430523)),
+			-2.45,
 			-1.7
 	);
-	final Pose2d parkLefter1 = new Pose2d(0, -19, -Math.toRadians(270));
-	final Pose2d parkLefter_new = new Pose2d(12, -19,-Math.toRadians(90));
+	final Pose2d parkLefter1 = new Pose2d(0, -22, -Math.toRadians(270));
+	final Pose2d parkLefter_new = new Pose2d(15, -19,-Math.toRadians(90));
 
 	Pose2d goToPoleAfterCorrection = new Pose2d(goToPole2.getX(), goToPole2.getY() - 3, goToPole2.getHeading());
 	final Pose2d parkRight1 = new Pose2d(goToPole2.getX() - 1, goToPole2.getY() - 3, goToPole2.getHeading());
@@ -52,6 +52,7 @@ public class LeftHighPole extends BaseAuto {
 
 	Pose2d newPoseIfMisfired = shiftRobotRelative(goToPole2,-backup,0);
 	Trajectory moveUpToPole;
+	Trajectory park;
 
 
 	@Override
@@ -97,37 +98,30 @@ public class LeftHighPole extends BaseAuto {
 				.build();
 
 
-		Trajectory park = parkLeftTrajNew;
+		park = parkLeftTrajNew;
 
 		switch (parkingPosition) {
-			case LEFT:
+			case ZONE_1:
+				park =parkMidTraj;
+				break;
+			case ZONE_2:
 				park = parkLeftTrajNew;
 				break;
-			case CENTER:
-				park = parkMidTraj;
-				break;
-			case RIGHT:
+			case ZONE_3:
 				park = parkLefter;
 				break;
 		}
 
+
 		Command auto = followRR(driveToPole).addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.FREE));
 
-		auto = multiCommand(auto,
-				new Delay(2)
-						.addNext(
-								commandGroups.moveVerticalExtension(
-										VerticalExtension.MID_POSITION
-								)
-						)
-		);
 
 		auto.addNext(new RoadrunnerHoldPose(robot, goToPole2));
 		auto.addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.ACTIVATED));
 		for (int i = 0; i < 5; ++i) {
 			addCycle(auto, commandGroups);
 		}
-		auto.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_teleop))
+		auto.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_LEFT_AUTO))
 				.addNext(new Delay(0.25))
 				.addNext(commandGroups.depositCone());
 		auto.addNext(commandGroups.moveHorizontalExtension(0));
@@ -140,9 +134,8 @@ public class LeftHighPole extends BaseAuto {
 	public void addCycle(Command command, ScoringCommandGroups commandGroups) {
 
 
-		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_teleop),
-				commandGroups.moveToIntakingLeftAuto(),
-				commandGroups.moveHorizontalExtension(HorizontalExtension.PRE_EMPTIVE_EXTEND))
+		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_LEFT_AUTO),
+				commandGroups.moveToIntakingLeftAuto())// 0.45 s
 				.addNext(commandGroups.moveHorizontalExtension(HorizontalExtension.mostlyAutoExtensionLeft))
 				.addNext(commandGroups.depositConeAndGrabCone(HorizontalExtension.autoExtensionLeft))
 				.addNext(DepositIfMisFired(commandGroups))
@@ -161,7 +154,7 @@ public class LeftHighPole extends BaseAuto {
 	public Command verticalExtensionHitPoleProcedure(ScoringCommandGroups commandGroups) {
 
 		return new PrintCommand1(robot.print, "vertical safety initialization")
-				.addNext(commandGroups.moveHorizontalExtension(VerticalExtension.HIGH_POSITION))
+				.addNext(commandGroups.moveHorizontalExtension(VerticalExtension.HIGH_POSITION_LEFT_AUTO))
 				.addNext(followRR(backupFromPole))
 				.addNext(commandGroups.asyncMoveVerticalExtension(VerticalExtension.IN_POSITION));
 
@@ -195,7 +188,9 @@ public class LeftHighPole extends BaseAuto {
 						.addNext(new MoveHorizontalExtension(robot.scoringMechanism.horizontalExtension, HorizontalExtension.DISLODGE_CONE))
 						.addNext(followRR(DislodgeCone2))
 						.addNext(new MoveHorizontalExtension(robot.scoringMechanism.horizontalExtension,HorizontalExtension.IN_POSITION))
-						.addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.ACTIVATED));
+						.addNext(new Delay(0.1))
+						.addNext(followRR(park))
+						.addNext(new Delay(30));
 			}
 			System.out.println("no maneuver, null command returned");
 			return new NullCommand();
@@ -216,7 +211,7 @@ public class LeftHighPole extends BaseAuto {
 						.addNext(new Delay(0.2))
 						.addNext(followRR(moveUpToPole))
 						.addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.ACTIVATED))
-						.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION))
+						.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_LEFT_AUTO))
 						.addNext(commandGroups.depositConeAsync())
 						.addNext(commandGroups.grabCone());
 			} else {

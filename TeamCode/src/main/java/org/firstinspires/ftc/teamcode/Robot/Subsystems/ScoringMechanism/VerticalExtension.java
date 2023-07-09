@@ -22,6 +22,9 @@ public class VerticalExtension extends Subsystem {
 
 	public static double HIGH_POSITION = 26;
 	public static double HIGH_POSITION_teleop = 26.3;
+	public static double HIGH_POSITION_RIGHT_AUTO = HIGH_POSITION_teleop;
+
+	public static double HIGH_POSITION_LEFT_AUTO = HIGH_POSITION_teleop + 0.2;
 
 	public static double MID_POSITION = 15.5;
 
@@ -33,7 +36,9 @@ public class VerticalExtension extends Subsystem {
 	public static double Kp = 0.25;
 	public static double Kd = 1.8 * Math.sqrt(Kp * 0.0015);
 	public static double max_accel = 250;
-	public static double max_velocity = 250;
+	public static double max_velocity = 300;
+
+	double power = 0;
 
 	public static double DISTANCE_FOR_CONE = 8.5; // 9 inches or less means we still have the cone
 
@@ -45,6 +50,8 @@ public class VerticalExtension extends Subsystem {
 	DcMotorEx vertical1;
 	DcMotorEx vertical2;
 	PIDCoefficients coefficients = new PIDCoefficients(Kp, 0, Kd);
+	PIDCoefficients emergency_kp = new PIDCoefficients(Kp * 10, 0, Kd);
+
 	MotionConstraint upConstraint = new MotionConstraint(max_accel/ 1.5, max_accel / 2, max_velocity / 1.5);
 	MotionConstraint downConstraint = new MotionConstraint(max_accel, max_accel, max_velocity);
 	ProfiledPID controller = new ProfiledPID(upConstraint, downConstraint, coefficients);
@@ -94,6 +101,13 @@ public class VerticalExtension extends Subsystem {
 			vertical2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 		}
 
+		if (is_auto && getSlidePosition() < 5 && Math.signum(power) == -1 && Math.abs(countsToInches(getVelocity())) < 2 && !slideIsDown()) {
+			controller.setPIDCoefficients(emergency_kp);
+			System.out.println("EMERGENCY KP MODE POG");
+		} else {
+			controller.setPIDCoefficients(coefficients);
+		}
+
 		updatePID();
 		Dashboard.packet.put("distance to cone / deposit", getDistanceToDeposit());
 
@@ -108,7 +122,7 @@ public class VerticalExtension extends Subsystem {
 
 	protected void updatePID() {
 		double measuredPosition = getSlidePosition();
-		double power = controller.calculate(slideTargetPosition, measuredPosition);
+		power = controller.calculate(slideTargetPosition, measuredPosition);
 		if (slideTargetPosition > IN_POSITION * 2) {
 			power += Kg;
 		} else {

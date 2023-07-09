@@ -25,7 +25,7 @@ public abstract class BaseAuto extends LinearOpMode {
 	protected Robot robot;
 	protected TrajectoryBuilder trajectoryBuilder;
 
-	protected SleeveDetection.ParkingPosition parkingPosition = SleeveDetection.ParkingPosition.LEFT;
+	protected SleeveDetection.ParkingPosition parkingPosition = SleeveDetection.ParkingPosition.ZONE_1;
 
 	public static double calculateTangent(Pose2d initialPosition, Pose2d finalPosition) {
 		double xd = initialPosition.getX() - finalPosition.getX();

@@ -91,6 +91,7 @@ public class Input extends Subsystem {
 	protected Command left_bumper_handler = null;
 	protected Command right_bumper_handler = null;
 	protected Command left_trigger_press_handler = null;
+	protected Command left_trigger_release_handler = null;
 	protected Command right_trigger_press_handler = null;
 	Gamepad gamepad;
 
@@ -166,6 +167,10 @@ public class Input extends Subsystem {
 
 	public void whenRightTriggerPressed(Command handler) {
 		right_trigger_press_handler = handler;
+	}
+
+	public void whenLeftTriggeredReleased(Command handler) {
+		left_trigger_release_handler = handler;
 	}
 
 	@Override
@@ -288,6 +293,9 @@ public class Input extends Subsystem {
 			scheduler.forceCommand(left_trigger_press_handler);
 		if (isRightTriggerPressed() && right_trigger_press_handler != null)
 			scheduler.forceCommand(right_trigger_press_handler);
+		if (isLeftTriggerReleased() && left_trigger_release_handler != null)
+			scheduler.forceCommand(left_trigger_release_handler);
+
 	}
 
 	public double getTRIGGER_DETECTION_THRESHOLD() {
@@ -499,6 +507,10 @@ public class Input extends Subsystem {
 
 	public boolean isRightTriggerPressed() {
 		return right_trigger_press && !right_trigger_press_prev;
+	}
+
+	public boolean isLeftTriggerReleased() {
+		return !left_trigger_press &&  left_trigger_press_prev;
 	}
 
 	public boolean isLeftTriggerValueChanged() {

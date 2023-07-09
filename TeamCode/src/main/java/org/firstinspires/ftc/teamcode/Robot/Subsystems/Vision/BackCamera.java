@@ -48,7 +48,7 @@ public class BackCamera extends Subsystem {
 	private final OpenCvPipeline pipeline;
 	private OpenCvWebcam cam;
 	private List<Cone> tempConeList;
-	public static boolean streamBackCameraToDash = true;
+	public static boolean streamBackCameraToDash = false;
 
 	public BackCamera(Team team, VisionMode visionMode) {
         //pipeline = new Save(team,this);
