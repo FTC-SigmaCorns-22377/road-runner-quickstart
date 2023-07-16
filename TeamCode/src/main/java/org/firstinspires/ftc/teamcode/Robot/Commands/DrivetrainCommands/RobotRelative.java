@@ -30,6 +30,8 @@ public class RobotRelative extends Command {
 
 	double snap_angle = Math.toRadians(-90);
 
+	protected double scalar = 1;
+
 	public RobotRelative(Robot robot, Input game_pad1) {
 		super(robot.drivetrain, game_pad1);
 		this.drivetrain = robot.drivetrain;
@@ -48,7 +50,6 @@ public class RobotRelative extends Command {
 	public void periodic() {
 
 
-		double scalar = 1.0;
 
 		double x;
 		double y;
@@ -72,7 +73,7 @@ public class RobotRelative extends Command {
 
 		y = MathUtils.applyDeadBand(y, strafe_dead_band);
 
-		Pose2d powers = new Pose2d(x * scalar, y * scalar, turn * scalar * 0.5);
+		Pose2d powers = new Pose2d(x * scalar, y * scalar, turn * 0.5);
 
 
 		drivetrain.robotRelative(powers);

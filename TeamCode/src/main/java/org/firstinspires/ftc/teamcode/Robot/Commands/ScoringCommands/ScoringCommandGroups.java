@@ -381,7 +381,7 @@ public class ScoringCommandGroups {
 
 		intakePosition = drivetrain.getPose();
 
-		if (verticalExtension.getSlidePosition() > 50) {
+		if (verticalExtension.getSlidePosition() > 5) {
 			return new NullCommand();
 		}
 
@@ -392,6 +392,7 @@ public class ScoringCommandGroups {
 				.addNext(moveTurret(Turret.TurretStates.TRANSFER)) // 0.2s
 				.addNext(moveHorizontalExtension(HorizontalExtension.IN_POSITION)) // some amount of time, assuming about 0.2
 				.addNext(moveArm(Turret.ArmStates.TRANSFER)) // 0.25s
+				.addNext(new Delay(0.2))
 				.addNext(closeLatch()) // 0.0s
 				.addNext(releaseCone())  // 0.25s
 				.addNext(moveArm(Turret.ArmStates.TRANSFER_SAFE)); // 0.25

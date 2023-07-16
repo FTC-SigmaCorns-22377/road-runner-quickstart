@@ -140,9 +140,10 @@ public class RightHighPole extends BaseAuto {
 	public void addCycle(Command command, ScoringCommandGroups commandGroups) {
 
 
-		Command nextCommand = multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO),
-				commandGroups.moveToIntakingPosition(),
-				commandGroups.moveHorizontalExtension(HorizontalExtension.PRE_EMPTIVE_EXTEND))
+		Command nextCommand = multiCommand(
+				commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO),
+				commandGroups.moveToIntakingPosition()
+		)
 				.addNext(commandGroups.depositConeAsync())
 				.addNext(commandGroups.moveHorizontalExtension(HorizontalExtension.mostlyAutoExtension))
 				.addNext(commandGroups.depositConeAndGrabCone(HorizontalExtension.autoExtension))

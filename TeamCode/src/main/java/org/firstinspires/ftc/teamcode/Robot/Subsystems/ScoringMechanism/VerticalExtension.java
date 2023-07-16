@@ -22,7 +22,7 @@ public class VerticalExtension extends Subsystem {
 
 	public static double HIGH_POSITION = 26;
 	public static double HIGH_POSITION_teleop = 26.3;
-	public static double HIGH_POSITION_RIGHT_AUTO = HIGH_POSITION_teleop;
+	public static double HIGH_POSITION_RIGHT_AUTO = HIGH_POSITION_teleop + 0.05;
 
 	public static double HIGH_POSITION_LEFT_AUTO = HIGH_POSITION_teleop + 0.2;
 
