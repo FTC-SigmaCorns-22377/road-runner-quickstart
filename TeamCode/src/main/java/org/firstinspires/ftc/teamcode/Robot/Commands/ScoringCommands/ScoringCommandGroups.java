@@ -398,6 +398,11 @@ public class ScoringCommandGroups {
 				.addNext(moveArm(Turret.ArmStates.TRANSFER_SAFE)); // 0.25
 	}
 
+	public Command putConeDownNoScore() {
+
+		return closeLatch().addNext(moveVerticalExtension(VerticalExtension.IN_POSITION));
+	}
+
 	public Command collectConeAuto(double autoExtensionDistance) {
 
 		return depositConeAsync()

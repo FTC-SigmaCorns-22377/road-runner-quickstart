@@ -31,7 +31,7 @@ public class Teleop extends BaseTeleop {
 		robot.gamepad1.whenRightBumperPressed(new RunCommandLegacy(commandGroups::collectCone));
 		robot.gamepad1.whenRightTriggerPressed(new RunCommandLegacy(commandGroups::moveVerticalExtensionDownOrReleaseClaw));
 		robot.gamepad1.whenSquarePressed(commandGroups.moveVerticalExtension(VerticalExtension.MID_POSITION_teleop));
-		robot.gamepad1.whenCrossPressed(new RunCommandLegacy(commandGroups::moveToIntakingLeftWithDeposit));
+		robot.gamepad1.whenCrossPressed(new RunCommandLegacy(commandGroups::putConeDownNoScore));
 		robot.gamepad1.whenTrianglePressed(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_teleop));
 		robot.gamepad1.whenCirclePressed(commandGroups.moveToLowGoalScoring());
 		robot.gamepad1.whenRightStickButtonPressed(new RunCommand(() -> {
