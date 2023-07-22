@@ -22,8 +22,8 @@ public class LeftHighAuto {
 		final Pose2d goToPole1 = new Pose2d(-38, -24, Math.toRadians(-100));
 		final Pose2d parkRight = new Pose2d(-63, -20, Math.toRadians(0));
 		final Pose2d parkMID = new Pose2d(-40, -18, Math.toRadians(-90));
-		final Pose2d parkLeft1_new = new Pose2d(-38, -19, Math.toRadians(270));
-		final Pose2d parkLeft_new = new Pose2d(-3, -15, Math.toRadians(90));
+		final Pose2d zone_3_1 = new Pose2d(-38, -19, Math.toRadians(270));
+		final Pose2d zone_3_new = new Pose2d(-3, -15, Math.toRadians(90));
 
 		Pose2d startPose = new Pose2d(-36 + 0.76, -66.5, Math.toRadians(90));
 		Pose2d goToPole2 = shiftRobotRelative(
@@ -49,8 +49,7 @@ public class LeftHighAuto {
 								.splineTo(goToPole1.vec(), -goToPole1.getHeading())
 								.splineToSplineHeading(goToPole2,calculateTangent(goToPole1,goToPole2))
 								.setReversed(true)
-								.splineToConstantHeading(parkLefter1.vec(), Math.toRadians(0))
-								.splineToSplineHeading(parkLefter_new, Math.toRadians(0))
+								.splineToSplineHeading(parkRight, calculateTangent(goToPole2,parkRight))
 								.build()
 
 				);

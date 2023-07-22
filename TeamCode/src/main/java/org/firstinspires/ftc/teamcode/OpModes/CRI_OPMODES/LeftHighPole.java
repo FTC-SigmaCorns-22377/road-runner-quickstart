@@ -53,6 +53,7 @@ public class LeftHighPole extends BaseAuto {
 	Pose2d newPoseIfMisfired = shiftRobotRelative(goToPole2,-backup,0);
 	Trajectory moveUpToPole;
 	Trajectory park;
+	int cycle_count = 0;
 
 
 	@Override
@@ -80,6 +81,10 @@ public class LeftHighPole extends BaseAuto {
 				.build();
 
 
+		Trajectory parkRightTraj = robot.drivetrain.getBuilder().trajectoryBuilder(goToPole2, true)
+				.splineToSplineHeading(parkRight, calculateTangent(parkRight,parkRight))
+				.build();
+
 		Trajectory parkLeftTrajNew = robot.drivetrain.getBuilder().trajectoryBuilder(goToPole2, true)
 				.splineToConstantHeading(parkLeft1_new.vec(), Math.toRadians(0))
 				.splineToSplineHeading(parkLeft_new, Math.toRadians(0))
@@ -102,13 +107,13 @@ public class LeftHighPole extends BaseAuto {
 
 		switch (parkingPosition) {
 			case ZONE_1:
-				park =parkMidTraj;
+				park = parkRightTraj;
 				break;
 			case ZONE_2:
-				park = parkLeftTrajNew;
+				park = parkMidTraj;
 				break;
 			case ZONE_3:
-				park = parkLefter;
+				park = parkLeftTrajNew;
 				break;
 		}
 
@@ -205,8 +210,10 @@ public class LeftHighPole extends BaseAuto {
 
 	public Command DepositIfMisFired(ScoringCommandGroups commandGroups) {
 		return new RunCommand(() -> {
+			cycle_count += 1;
+			boolean cone_in_deposit = robot.scoringMechanism.verticalExtension.coneIsStillInDeposit();
 			System.out.println("checking if misfire occurred");
-			if (false) {//(robot.scoringMechanism.verticalExtension.coneIsStillInDeposit()) {
+			if (cone_in_deposit && cycle_count == 1) {
 				System.out.println("Misfire did occur");
 
 				return commandGroups.openClaw()
@@ -214,10 +221,15 @@ public class LeftHighPole extends BaseAuto {
 						.addNext(new Delay(0.2))
 						.addNext(followRR(moveUpToPole))
 						.addNext(new SetDrivetrainBrake(robot.drivetrain, Drivetrain.BrakeStates.ACTIVATED))
-						.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_LEFT_AUTO))
+						.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO))
 						.addNext(commandGroups.depositConeAsync())
 						.addNext(commandGroups.grabCone());
-			} else {
+			} else if (cone_in_deposit) {
+				return commandGroups.openClaw()
+						.addNext(commandGroups.moveVerticalExtension(VerticalExtension.HIGH_POSITION_RIGHT_AUTO))
+						.addNext(commandGroups.depositConeAsync())
+						.addNext(commandGroups.grabCone());
+			} else  {
 				System.out.println("Misfire did not occur; distance was: " + robot.scoringMechanism.verticalExtension.getDistanceToDeposit() + " slide height was " + robot.scoringMechanism.verticalExtension.getSlidePosition());
 				return new NullCommand();
 			}
