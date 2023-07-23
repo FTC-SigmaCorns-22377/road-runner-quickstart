@@ -94,13 +94,6 @@ public class VerticalExtension extends Subsystem {
 	@Override
 	public void periodic() {
 
-		if (getSlidePosition() < 4 && currentLimitExceeded()) {
-			vertical1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-			vertical2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-			vertical1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-			vertical2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-		}
-
 		if (is_auto && getSlidePosition() < 5 && Math.signum(power) == -1 && Math.abs(countsToInches(getVelocity())) < 2 && !slideIsDown()) {
 			controller.setPIDCoefficients(emergency_kp);
 			System.out.println("EMERGENCY KP MODE POG");
