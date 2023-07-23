@@ -35,7 +35,7 @@ public class RightHighPole extends BaseAuto {
 	final Pose2d parkLeft_new = new Pose2d(-8, 15, Math.toRadians(90));
 	Pose2d startPose = new Pose2d(-36, 66.5, Math.toRadians(-90));
 	Pose2d goToPole2 = shiftRobotRelative(
-			new Pose2d(-36.2, 9.5, Math.toRadians(338.11832672430523)),
+			new Pose2d(-36.2, 11.2, Math.toRadians(338.11832672430523)),
 			-1.5,
 			-2.7
 	);
@@ -148,7 +148,7 @@ public class RightHighPole extends BaseAuto {
 		)
 				.addNext(commandGroups.depositConeAsync())
 				.addNext(commandGroups.moveHorizontalExtension(HorizontalExtension.mostlyAutoExtension))
-				.addNext(commandGroups.depositConeAndGrabCone(HorizontalExtension.autoExtension))
+				.addNext(commandGroups.depositConeAndGrabCone(HorizontalExtension.autoExtensionRight))
 				.addNext(DepositIfMisFired(commandGroups))
 				.addNext(commandGroups.bringConeIn())
 				.addNext(DislodgeConeIdeal())

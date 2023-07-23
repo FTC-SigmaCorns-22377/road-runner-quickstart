@@ -68,8 +68,8 @@ public class DriveConstants {
 	public static double MAX_ACCEL_slow = 30;
 	public static double MAX_ANG_VEL_slow = Math.toRadians(90);
 	public static double MAX_ANG_ACCEL_slow = Math.toRadians(90);
-	public static double MAX_VEL = 55;
-	public static double MAX_ACCEL = 35;
+	public static double MAX_VEL = 60;
+	public static double MAX_ACCEL = 60;
 	public static double MAX_ANG_VEL = Math.toRadians(160);
 	public static double MAX_ANG_ACCEL = Math.toRadians(90);
 

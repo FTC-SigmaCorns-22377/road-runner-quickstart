@@ -32,10 +32,10 @@ public class LeftHighPole extends BaseAuto {
 	final Pose2d parkRight = new Pose2d(-63, -20, Math.toRadians(0));
 	final Pose2d parkMID = new Pose2d(-40, -18, Math.toRadians(90));
 	final Pose2d parkLeft1_new = new Pose2d(-38, -19, Math.toRadians(270));
-	final Pose2d parkLeft_new = new Pose2d(-6, -15, Math.toRadians(90));
+	final Pose2d parkLeft_new = new Pose2d(-6, -17, Math.toRadians(90));
 	Pose2d startPose = new Pose2d(-36, -66.5, Math.toRadians(90));
 	Pose2d goToPole2 = shiftRobotRelative(
-			new Pose2d(-36.95, -5.508013549498267, -Math.toRadians(338.11832672430523)),
+			new Pose2d(-36.95, -6.5, -Math.toRadians(338.11832672430523 - 3)),
 			-2.45,
 			-1.7
 	);

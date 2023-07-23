@@ -7,7 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandFramework.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFramework.Command;
@@ -25,8 +25,8 @@ import org.firstinspires.ftc.teamcode.visionPipelines.SleeveDetection;
 import java.util.HashMap;
 import java.util.Objects;
 
-@Disabled
-public class VanillaLatteAuto extends BaseAuto {
+@Autonomous
+public class RightMid extends BaseAuto {
 	Pose2d startPose = new Pose2d(-36, 66.5, Math.toRadians(-90));
 
 	@Override
@@ -73,7 +73,7 @@ public class VanillaLatteAuto extends BaseAuto {
 		for (int i = 0; i < 5; ++i) {
 			addCycle(auto, commandGroups);
 		}
-		auto.addNext(multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.MID_POSITION + 0.2)))
+		auto.addNext(multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.MID_POSITION + 1 )))
 				.addNext(new Delay(0.3))
 				.addNext(commandGroups.depositCone());
 		auto.addNext(new ToggleBrake(robot.drivetrain));
@@ -92,8 +92,7 @@ public class VanillaLatteAuto extends BaseAuto {
 
 	public void addCycle(Command command, ScoringCommandGroups commandGroups) {
 		command.addNext(multiCommand(commandGroups.moveVerticalExtension(VerticalExtension.MID_POSITION),
-						commandGroups.moveToIntakingLeftAuto(),
-						commandGroups.moveHorizontalExtension(HorizontalExtension.PRE_EMPTIVE_EXTEND)))
+						commandGroups.moveToIntakingLeftAuto()))
 				.addNext(new Delay(0.15))
 				.addNext(commandGroups.depositConeAsync())
 				.addNext(commandGroups.moveHorizontalExtension(HorizontalExtension.mostlyAutoExtension_MID))

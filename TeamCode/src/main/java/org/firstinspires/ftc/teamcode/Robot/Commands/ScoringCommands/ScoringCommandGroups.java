@@ -301,7 +301,7 @@ public class ScoringCommandGroups {
 				.addNext(new MultipleCommand(moveArm(Turret.ArmStates.DOWN), openClaw()));
 	}
 	public Command moveToIntakingLeftLonger() {
-		return new MultipleCommand(moveHorizontalExtension(HorizontalExtension.autoExtension), moveArm(Turret.ArmStates.TRANSFER_SAFE), moveTurret(Turret.TurretStates.Slight_LEFT))
+		return new MultipleCommand(moveHorizontalExtension(HorizontalExtension.autoExtensionRight), moveArm(Turret.ArmStates.TRANSFER_SAFE), moveTurret(Turret.TurretStates.Slight_LEFT))
 				.addNext(new MultipleCommand(moveArm(Turret.ArmStates.DOWN), openClaw()));
 	}
 
@@ -448,6 +448,14 @@ public class ScoringCommandGroups {
 				.addNext(releaseCone())
 				.addNext(closeLatch())
 				.addNext(moveArm(Turret.ArmStates.TRANSFER_SAFE));
+
+	}
+
+	public Command bendPoleMacro() {
+		return openClaw()
+				.addNext(moveTurret(Turret.TurretStates.Slight_LEFT))
+				.addNext(moveArm(Turret.ArmStates.TRANSFER))
+				.addNext(moveHorizontalExtension(200));
 
 	}
 

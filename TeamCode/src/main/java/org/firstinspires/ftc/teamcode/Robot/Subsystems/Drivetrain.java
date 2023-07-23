@@ -18,8 +18,8 @@ public class Drivetrain extends Subsystem {
 	protected double rightPower = 0;
 	public SampleMecanumDrive drive;
 	Servo aBrake;
-	double brakeActive = 0.5;
-	double brakeReleased = 0.7;
+	double brakeActive = 0.65;
+	double brakeReleased = 0.8;
 	BrakeStates brakeState = BrakeStates.FREE;
 
 	@Override
